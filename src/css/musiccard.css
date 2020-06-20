@@ -1,0 +1,19 @@
+.mainMusicCardDiv {
+  width: 500px;
+  height: 500px;
+  overflow: scroll;
+}
+
+.individualMusicCardDiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.album_img {
+  width: 175px;
+  height: 150px;
+}
+
+.musicInfoDiv {
+  margin: 8px;
+}
