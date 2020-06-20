@@ -4,10 +4,9 @@ import MusicCard from "./musicCard/MusicCards";
 import axios from "axios";
 
 const Main = () => {
-  const [musicRes, setmusicRes] = useState();
+  const [musicRes, setMusicRes] = useState([]);
 
   const fetchData = async () => {
-    console.log("hello");
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
       let url = tabs[0].url;
       console.log(url);
@@ -21,18 +20,18 @@ const Main = () => {
           q: "drake toosie slide",
           type: "track",
           market: "US",
+          limit: 5,
         },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization:
-            "Bearer BQDjpDWNX8qZXU2NCcD9dgh_XsIZHTmhC9DHOWGcMJRHUUVtKAgNRAnk60O8-C1JRffUzWLIK5JxN9AP4iae7l_MPr_-mLsi930aqaLGRNqfGwLXEX9VaMP-WNYBWemWCQKdSISYjLjnexhvEoT8RxuU1pmRxYx_K9N3RzEs_bYzTBe_vQMCdO-zRgH_cXOAAsVlXB8FIN_8AfvtJ2VLzg7Bn86wQTg5N9sVY7LVmkawKBe2miOt-Md5OJEdIE31SlVQTUyCYF62O0NL_QXziKEM1rOSdacyk7Q0",
+            "Bearer BQCy4U6GiRLdvbaJdj5t-1iiA27Cx2tmuFZjTcZCjxKZTutPoF3fD23_4kEI1Gp3eKd4FoWQXXW1L2qK3UyFoCAaTZTyqeHZygwXYE2PwvvG3O8895JMoXUMndxoMX6nqzjYaYURZBJ3YiGEZaMS7BrOF6TomXwb1LDRIKu803o5o8FC7eZsh0r1m_kachWzekizCArWMcZ5a1QMNBKUD4nGvXcu5fAxOFI4l4o9slv0NvTFqYUwe6_x6rWgKhFwUOY5wu7GgZ4gOgcQnQc5OXDUUA3h5IUV",
         },
       });
-      console.log(res);
-      setmusicRes(res.data.tracks.items);
+
+      setMusicRes(res.data.tracks.items);
     } catch (error) {
-      setmusicRes(error);
       console.log(error);
     }
   };
@@ -54,7 +53,8 @@ const Main = () => {
         />
       </div>
       <div className="resultsList">
-        {/* <MusicCard musicRes={musicRes} /> */}
+        {musicRes.length ? <MusicCard result={musicRes} /> : <p>loading ...</p>}
+        {/* <MusicCard result={musicRes} /> */}
       </div>
     </div>
   );
