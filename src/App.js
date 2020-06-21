@@ -1,6 +1,7 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
 import Main from "./components/Main";
+<<<<<<< HEAD
 import ErrorPage from "./components/Errorpage";
 
 function App() {
@@ -18,6 +19,11 @@ function App() {
     console.log(a);
   }, []);
 
+=======
+import "./App.css";
+
+function App() {
+>>>>>>> c3bb6cec73e4f868e2cb89a623bf473af6df5ba5
   return (
     <div className="App">
       {currentUrl.includes("youtube") ? <Main /> : <ErrorPage />}

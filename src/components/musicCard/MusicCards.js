@@ -1,5 +1,5 @@
 import React from "react";
-// import AddForm from "../AddForm";
+import AddForm from "../AddForm";
 import "../../css/musiccard.css";
 
 const MusicCard = ({ result }) => {
@@ -17,12 +17,11 @@ const MusicCard = ({ result }) => {
             src={song.album.images[1].url}
           />
         </div>
-
-        {/* <AddForm id={song.id} /> */}
+        <AddForm uri={song.uri} song_id={song.id} />
       </div>
     );
   });
-  return <div className="mainMusicCardDiv">{display}</div>;
+  return <div className="musicCardContainer">{display}</div>;
 };
 
 export default MusicCard;
