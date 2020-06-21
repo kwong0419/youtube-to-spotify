@@ -13,7 +13,13 @@
 #closeBtn:hover {
   opacity: 0.4;
 }
+
 #profileIcon {
   height: 25px;
-  width: 45px;
+  width: 25px;
+}
+
+#qrImg {
+  height: 100px;
+  width: 100px;
 }

@@ -8,6 +8,7 @@ import "../css/Main.css";
 const Main = () => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
+  const [userURI, setUserURI] = useState([]);
 
   const fetchData = async () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
@@ -37,10 +38,28 @@ const Main = () => {
     }
   };
 
+  const fetchUser = async () => {
+    try {
+      let res = await axios({
+        method: "get",
+        url: `https://api.spotify.com/v1/me/`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + API_KEY,
+        },
+      });
+      setUserURI(res.data.uri);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    fetchUser();
     fetchData();
   }, []);
-  console.log(showQr);
+
   return (
     <div className="mainComponent">
       <div className="banner">
@@ -63,8 +82,9 @@ const Main = () => {
         />
         {showQr ? (
           <img
+            id="qrImg"
             alt="profileQr"
-            src="https://api.qrserver.com/v1/create-qr-code/?data=spotify:user:96bolfks7e65hu0ydvy1sutfj&amp.png"
+            src={`https://api.qrserver.com/v1/create-qr-code/?data=${userURI}&amp.png`}
           />
         ) : null}
 
@@ -74,7 +94,11 @@ const Main = () => {
         /> */}
       </div>
       <div className="resultsList">
-        {musicRes.length ? <MusicCard result={musicRes} /> : <p>loading ...</p>}
+        {musicRes.length ? (
+          <MusicCard result={musicRes} />
+        ) : (
+          <h3>loading ...</h3>
+        )}
       </div>
     </div>
   );
