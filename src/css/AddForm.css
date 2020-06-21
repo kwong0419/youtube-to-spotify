@@ -5,31 +5,93 @@
 }
 
 #playlistBtn {
-  color: white;
-  background: darkviolet;
-  border: 2px solid snow;
-  border-radius: 8px;
-  height: 30px;
-  width: 45%;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #1db954;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 10px;
+  width: 90px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+#playlistBtn:hover {
+  background-color: #178b40;
 }
 
-#playlistBtn:hover {
-  border: 2px solid lightslategrey;
-  transform: scale(1.25) perspective(1px);
+#playlistBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  padding: 0;
+}
+
+#playlistBtn span:after {
+  content: "\002b";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -15px;
+  transition: 0.5s;
+}
+
+#playlistBtn:hover span {
+  padding-right: 25px;
+}
+
+#playlistBtn:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 
 #libraryBtn {
-  color: white;
-  background: forestgreen;
-  border: 2px solid snow;
-  border-radius: 8px;
-  height: 35px;
-  width: 50%;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #6917a0;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  padding: 10px;
+  width: 90px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+#libraryBtn:hover {
+  background-color: #561483;
 }
 
-#libraryBtn:hover {
-  border: 2px solid lightslategrey;
-  transform: scale(1.25) perspective(1px);
+#libraryBtn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  padding: 0;
+}
+
+#libraryBtn span:after {
+  content: "\002b";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -15px;
+  transition: 0.5s;
+}
+
+#libraryBtn:hover span {
+  padding-right: 25px;
+}
+
+#libraryBtn:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 
 #playlistBtn:focus,
