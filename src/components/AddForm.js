@@ -27,13 +27,6 @@ const AddForm = ({ uri, song_id }) => {
 
   const handleSubmitPlaylist = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-return(
-
-
-    <form>
-      <select name="playlist">
-=======
     try {
       await axios({
         method: "post",
@@ -110,4 +103,3 @@ return(
 };
 
 export default AddForm;
->>>>>>> c3bb6cec73e4f868e2cb89a623bf473af6df5ba5
