@@ -1,7 +1,7 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
 import MusicCard from "./musicCard/MusicCards";
-import API_KEY from "../util/api";
+import { API_KEY, YT_API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/Main.css";
 
@@ -9,11 +9,12 @@ const Main = () => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
+  const [youtubeID, setYoutubeID] = useState("");
 
   const fetchData = async () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
       let url = tabs[0].url;
-      // console.log(url);
+      setYoutubeID(url.split("v=")[1]);
       // use `url` here inside the callback because it's asynchronous!
     });
     try {
@@ -21,7 +22,7 @@ const Main = () => {
         method: "get",
         url: `https://api.spotify.com/v1/search/`,
         params: {
-          q: "jay z",
+          q: "Mac Miller - Best Day Ever",
           type: "track",
           market: "US",
           limit: 5,
@@ -54,6 +55,28 @@ const Main = () => {
       console.log(error);
     }
   };
+
+  const fetchYoutube = async () => {
+    try {
+      let res = await axios({
+        method: "get",
+        url: `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${youtubeID}&key=${YT_API_KEY}`,
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer ",
+        },
+      });
+      setUserURI(res.data.uri);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // curl \
+  // 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=G6vMXTYZJz0&key=[YOUR_API_KEY]' \
+  // --header 'Authorization: Bearer [YOUR_ACCESS_TOKEN]' \
+  // --header 'Accept: application/json' \
+  // --compressed
 
   useEffect(() => {
     fetchUser();

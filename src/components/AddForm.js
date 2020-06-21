@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import API_KEY from "../util/api";
+import { API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/AddForm.css";
 
