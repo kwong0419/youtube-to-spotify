@@ -10,19 +10,15 @@ const Main = () => {
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
   const [youtubeID, setYoutubeID] = useState("");
+  const [title, setTitle] = useState("");
 
   const fetchData = async () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-      let url = tabs[0].url;
-      setYoutubeID(url.split("v=")[1]);
-      // use `url` here inside the callback because it's asynchronous!
-    });
     try {
       let res = await axios({
         method: "get",
         url: `https://api.spotify.com/v1/search/`,
         params: {
-          q: "Mac Miller - Best Day Ever",
+          q: "Dance Monkey",
           type: "track",
           market: "US",
           limit: 5,
@@ -40,6 +36,11 @@ const Main = () => {
   };
 
   const fetchUser = async () => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+      let url = tabs[0].url;
+      setYoutubeID(url.split("v=")[1]);
+      // use `url` here inside the callback because it's asynchronous!
+    });
     try {
       let res = await axios({
         method: "get",
@@ -58,28 +59,28 @@ const Main = () => {
 
   const fetchYoutube = async () => {
     try {
-      let res = await axios({
-        method: "get",
-        url: `https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${youtubeID}&key=${YT_API_KEY}`,
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer ",
-        },
-      });
-      setUserURI(res.data.uri);
+      let res = await axios.get(
+        `https://www.googleapis.com/youtube/v3/search`,
+        {
+          params: {
+            part: "snippet",
+            maxResults: 8,
+            key: YT_API_KEY,
+            type: "video",
+            q: youtubeID,
+          },
+        }
+      );
+      console.log(res.data.items);
+      setTitle(res.data.items[0].snippet.title);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // curl \
-  // 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=G6vMXTYZJz0&key=[YOUR_API_KEY]' \
-  // --header 'Authorization: Bearer [YOUR_ACCESS_TOKEN]' \
-  // --header 'Accept: application/json' \
-  // --compressed
-
   useEffect(() => {
     fetchUser();
+    fetchYoutube();
     fetchData();
   }, []);
 
