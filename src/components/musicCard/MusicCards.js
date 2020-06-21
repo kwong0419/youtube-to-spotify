@@ -3,7 +3,6 @@ import AddForm from "../AddForm";
 import "../../css/musiccard.css";
 
 const MusicCard = ({ result }) => {
-  console.log("musiccard " + result);
   const display = result.map((song) => {
     return (
       <div className="individualMusicCardDiv">
@@ -18,8 +17,7 @@ const MusicCard = ({ result }) => {
             src={song.album.images[1].url}
           />
         </div>
-
-        <AddForm id={song.id} />
+        <AddForm uri={song.uri} song_id={song.id} />
       </div>
     );
   });
