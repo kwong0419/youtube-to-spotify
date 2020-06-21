@@ -52,8 +52,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer BQDk2AiSHtCWAM8I1rSLRD7jrSWUioGxFAwre8kTAAfM-nNeprb-TXKeKbstiYIZqGnfWt_POtkH0Q7uTM_PiQNCQkuk7edgY9s_g8U7dseNcCX7-8HV1XCDFE6yHorlx0YLj_o8mDhfCT08ILGQVQIbAmQTcuImgPJYvA9qkl3qWAh13RCiUP70ADHS_QoYvOfvw5vgDVNA9yiDwDVrOoIAFjcJ-zrozU0Ef67BFihzsx6o5rWO2kgsVFZc3qQPkf6XByt_AW8lPGVL_D9cfSdJZJ_PFGC38fY3",
+          Authorization: "Bearer " + API_KEY,
         },
       });
       setToggleLibraryMessage(true);
@@ -85,16 +84,16 @@ const AddForm = ({ uri, song_id }) => {
             );
           })}
         </select>
-        <div id="playlistBtn" type="submit">
+        <button id="playlistBtn" type="submit">
           Add to Playlist
-        </div>
+        </button>
       </form>
       {togglePlaylistMessage ? (
-        <h3 id="playlistMsg">Song successfully added to playlist</h3>
+        <h3 id="playlistMsg">Song successfully added to Playlist</h3>
       ) : null}
-      <div id="libraryBtn" onClick={handleClickLibrary} type="click">
+      <button id="libraryBtn" onClick={handleClickLibrary} type="click">
         Add to Library
-      </div>
+      </button>
       {toggleLibraryMessage ? (
         <h3 id="libraryMsg">Song successfully saved to Library</h3>
       ) : null}

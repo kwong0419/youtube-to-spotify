@@ -21,7 +21,7 @@ const Main = () => {
         method: "get",
         url: `https://api.spotify.com/v1/search/`,
         params: {
-          q: "j.cole fire squad",
+          q: "jay z",
           type: "track",
           market: "US",
           limit: 5,
