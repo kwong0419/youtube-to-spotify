@@ -1,4 +1,4 @@
-.mainMusicCardDiv {
+.musicCardContainer {
   width: 500px;
   height: 500px;
   overflow: scroll;
@@ -7,6 +7,16 @@
 .individualMusicCardDiv {
   display: flex;
   flex-direction: row;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700px;
+}
+
+.artist {
+  font-size: 16px;
+  font-weight: 200px;
 }
 
 .album_img {

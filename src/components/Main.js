@@ -27,7 +27,7 @@ const Main = () => {
           Accept: "application/json",
           "Content-Type": "application/json",
           Authorization:
-            "Bearer BQDsqA3noeAAsfcmV63JrdO_HQQ72jZP451OuyJeKRIWVDo--V8mOux-lRqh4mPiizpn5VUj36vDN_7R2-3ZMRljsIzt4CNAs-XMx-KvyHIT9dngg48He5IfkV_ScQDn5qT5iGHMLgCd_GUu_QUi6zKHp7RQ1D7zMVCXVXkESa-izfQ2fclNR9Xcm8KpNbzY0ExPTNUTTP63ExSLFKSBvHN4vdlg6oLH7g776UXeilwPjqH35OpO64cal6oYYX5DmiwjODfLLfAL3wVCvoJAL4U671q_vetVxxnh",
+            "Bearer BQDk2AiSHtCWAM8I1rSLRD7jrSWUioGxFAwre8kTAAfM-nNeprb-TXKeKbstiYIZqGnfWt_POtkH0Q7uTM_PiQNCQkuk7edgY9s_g8U7dseNcCX7-8HV1XCDFE6yHorlx0YLj_o8mDhfCT08ILGQVQIbAmQTcuImgPJYvA9qkl3qWAh13RCiUP70ADHS_QoYvOfvw5vgDVNA9yiDwDVrOoIAFjcJ-zrozU0Ef67BFihzsx6o5rWO2kgsVFZc3qQPkf6XByt_AW8lPGVL_D9cfSdJZJ_PFGC38fY3",
         },
       });
       setMusicRes(res.data.tracks.items);
@@ -49,7 +49,7 @@ const Main = () => {
             window.close();
           }}
           alt="close"
-          src="https://img.icons8.com/material-rounded/24/000000/close-window.png"
+          src="https://mpng.subpng.com/20180320/dgw/kisspng-computer-icons-symbol-circle-black-close-icon-5ab0da57bf6214.2979679915215396717839.jpg"
         />
         {/* <img
           alt="settings"

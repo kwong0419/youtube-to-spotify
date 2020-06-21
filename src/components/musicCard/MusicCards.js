@@ -21,7 +21,7 @@ const MusicCard = ({ result }) => {
       </div>
     );
   });
-  return <div className="mainMusicCardDiv">{display}</div>;
+  return <div className="musicCardContainer">{display}</div>;
 };
 
 export default MusicCard;

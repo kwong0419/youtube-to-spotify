@@ -1,3 +1,15 @@
+.mainComponent {
+  background: #2c3134;
+  background-blend-mode: screen;
+  color: white;
+}
+
+#closeBtn {
+  filter: invert(1);
+  height: 25px;
+  width: 45px;
+}
+
 #closeBtn:hover {
   opacity: 0.4;
 }
