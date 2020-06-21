@@ -13,3 +13,7 @@
 #closeBtn:hover {
   opacity: 0.4;
 }
+#profileIcon {
+  height: 25px;
+  width: 45px;
+}
