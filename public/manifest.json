@@ -9,6 +9,7 @@
     "default_popup": "index.html",
     "default_title": "Add to Spotify"
   },
+
   "icons": {
     "16": "logo-small.png",
     "48": "logo-small.png",
