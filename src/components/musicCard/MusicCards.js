@@ -1,9 +1,8 @@
 import React from "react";
-import AddForm from "../AddForm";
+// import AddForm from "../AddForm";
 import "../../css/musiccard.css";
 
 const MusicCard = ({ result }) => {
-  console.log("musiccard " + result);
   const display = result.map((song) => {
     return (
       <div className="individualMusicCardDiv">
@@ -19,7 +18,7 @@ const MusicCard = ({ result }) => {
           />
         </div>
 
-        <AddForm id={song.id} />
+        {/* <AddForm id={song.id} /> */}
       </div>
     );
   });
