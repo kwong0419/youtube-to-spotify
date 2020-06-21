@@ -6,8 +6,8 @@
 
 #closeBtn {
   filter: invert(1);
-  height: 25px;
-  width: 45px;
+  width: 20px;
+  height: 20px;
 }
 
 #closeBtn:hover {

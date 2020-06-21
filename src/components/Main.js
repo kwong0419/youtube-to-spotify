@@ -49,7 +49,7 @@ const Main = () => {
             window.close();
           }}
           alt="close"
-          src="https://mpng.subpng.com/20180320/dgw/kisspng-computer-icons-symbol-circle-black-close-icon-5ab0da57bf6214.2979679915215396717839.jpg"
+          src="https://static.thenounproject.com/png/73078-200.png"
         />
         {/* <img
           alt="settings"
