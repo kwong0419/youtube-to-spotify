@@ -84,16 +84,28 @@ const AddForm = ({ uri, song_id }) => {
             );
           })}
         </select>
-        <button id="playlistBtn" type="submit">
-          Add to Playlist
+        <button
+          id="playlistBtn"
+          type="submit"
+          class="button"
+          style={{ verticalAlign: "middle" }}
+        >
+          <span>Add to Playlist</span>
         </button>
       </form>
       {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>
       ) : null}
-      <button id="libraryBtn" onClick={handleClickLibrary} type="click">
-        Add to Library
+
+      <button
+        id="libraryBtn"
+        onClick={handleClickLibrary}
+        type="click"
+        style={{ verticalAlign: "middle" }}
+      >
+        <span>Add to Library</span>
       </button>
+
       {toggleLibraryMessage ? (
         <h3 id="libraryMsg">Song successfully saved to Library</h3>
       ) : null}

@@ -12,14 +12,19 @@
 }
 
 .title {
-  color: snow;
-  font-size: 24px;
+  color: white;
+  /* font-size: 24px; */
   font-weight: 700px;
+  font-size: 1.5em;
+  margin-bottom: 0;
+  align-items: center;
 }
 
 .artist {
   font-size: 15px;
   font-weight: 400px;
+  margin-top: 0;
+  font-weight: 500;
 }
 
 .albumDiv {
@@ -29,6 +34,7 @@
 .albumImg {
   width: 175px;
   height: 150px;
+  border-radius: 2px;
 }
 
 .addFormDiv {
@@ -40,4 +46,8 @@
   flex-direction: column;
   justify-content: space-around;
   padding: 20px;
+}
+
+select {
+  border-radius: 0.5em;
 }
