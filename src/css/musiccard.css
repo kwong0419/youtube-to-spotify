@@ -1,4 +1,5 @@
 .musicCardContainer {
+  padding: 20px;
   width: 500px;
   height: 500px;
   overflow: scroll;
@@ -7,23 +8,36 @@
 .individualMusicCardDiv {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .title {
+  color: snow;
   font-size: 24px;
   font-weight: 700px;
 }
 
 .artist {
-  font-size: 16px;
-  font-weight: 200px;
+  font-size: 15px;
+  font-weight: 400px;
 }
 
-.album_img {
+.albumDiv {
+  padding: 20px;
+}
+
+.albumImg {
   width: 175px;
   height: 150px;
 }
 
+.addFormDiv {
+  padding: 20px;
+}
+
 .musicInfoDiv {
-  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 20px;
 }

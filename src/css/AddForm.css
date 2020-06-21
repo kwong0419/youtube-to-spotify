@@ -1,0 +1,46 @@
+#formPlaylist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#playlistBtn {
+  color: white;
+  background: darkviolet;
+  border: 2px solid snow;
+  border-radius: 8px;
+  height: 30px;
+  width: 45%;
+}
+
+#playlistBtn:hover {
+  border: 2px solid lightslategrey;
+  transform: scale(1.25) perspective(1px);
+}
+
+#libraryBtn {
+  color: white;
+  background: forestgreen;
+  border: 2px solid snow;
+  border-radius: 8px;
+  height: 35px;
+  width: 50%;
+}
+
+#libraryBtn:hover {
+  border: 2px solid lightslategrey;
+  transform: scale(1.25) perspective(1px);
+}
+
+#playlistBtn:focus,
+#libraryBtn:focus {
+  outline: none;
+}
+
+#playlistMsg {
+  color: lawngreen;
+}
+
+#libraryMsg {
+  color: skyblue;
+}

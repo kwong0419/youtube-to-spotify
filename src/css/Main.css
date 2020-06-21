@@ -4,6 +4,14 @@
   color: white;
 }
 
+.banner {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 20px 20px auto;
+  grid-gap: 20px;
+  border-bottom: 2px solid snow;
+}
+
 #closeBtn {
   filter: invert(1);
   width: 20px;
@@ -20,6 +28,6 @@
 }
 
 #qrImg {
-  height: 100px;
-  width: 100px;
+  height: 125px;
+  width: 125px;
 }

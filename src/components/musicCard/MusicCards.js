@@ -1,6 +1,6 @@
 import React from "react";
 import AddForm from "../AddForm";
-import "../../css/musiccard.css";
+import "../../css/MusicCard.css";
 
 const MusicCard = ({ result }) => {
   const display = result.map((song) => {
@@ -10,14 +10,16 @@ const MusicCard = ({ result }) => {
           <h3 className="title">{song.name}</h3>
           <p className="artist">{song.artists[0].name}</p>
         </div>
-        <div className="album_div">
+        <div className="albumDiv">
           <img
             alt="album"
-            className="album_img"
+            className="albumImg"
             src={song.album.images[1].url}
           />
         </div>
-        <AddForm uri={song.uri} song_id={song.id} />
+        <div className="addFormDiv">
+          <AddForm uri={song.uri} song_id={song.id} />
+        </div>
       </div>
     );
   });

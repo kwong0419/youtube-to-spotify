@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import API_KEY from "../util/api";
 import axios from "axios";
+import "../css/AddForm.css";
 
 const AddForm = ({ uri, song_id }) => {
   const [playlists, setPlaylists] = useState([]);
@@ -84,18 +85,18 @@ const AddForm = ({ uri, song_id }) => {
             );
           })}
         </select>
-        <button type="submit" id="addPlaylistBtn">
+        <div id="playlistBtn" type="submit">
           Add to Playlist
-        </button>
+        </div>
       </form>
       {togglePlaylistMessage ? (
-        <h3 style={{ color: "green" }}>Song successfully added to playlist</h3>
+        <h3 id="playlistMsg">Song successfully added to playlist</h3>
       ) : null}
-      <button onClick={handleClickLibrary} type="click">
+      <div id="libraryBtn" onClick={handleClickLibrary} type="click">
         Add to Library
-      </button>
+      </div>
       {toggleLibraryMessage ? (
-        <h3 style={{ color: "skyblue" }}>Song successfully saved to Library</h3>
+        <h3 id="libraryMsg">Song successfully saved to Library</h3>
       ) : null}
     </div>
   );
