@@ -9,38 +9,22 @@ const Main = () => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
-  const [youtubeID, setYoutubeID] = useState("");
-  const [title, setTitle] = useState("");
 
-  const fetchData = async () => {
-    try {
-      let res = await axios({
-        method: "get",
-        url: `https://api.spotify.com/v1/search/`,
-        params: {
-          q: "Dance Monkey",
-          type: "track",
-          market: "US",
-          limit: 5,
-        },
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
-        },
-      });
-      setMusicRes(res.data.tracks.items);
-    } catch (error) {
-      console.log(error);
-    }
+  const getUrl = async () => {
+    return chrome.tabs.query(
+      { active: true, lastFocusedWindow: true },
+      async (tabs) => {
+        let url = tabs[0].url;
+        console.log("url: ", url.split("v=")[1]);
+        let id = url.split("v=")[1];
+        let title = await fetchYoutube(id);
+        await fetchData(title);
+        // use `url` here inside the callback because it's asynchronous!
+      }
+    );
   };
 
   const fetchUser = async () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-      let url = tabs[0].url;
-      setYoutubeID(url.split("v=")[1]);
-      // use `url` here inside the callback because it's asynchronous!
-    });
     try {
       let res = await axios({
         method: "get",
@@ -57,7 +41,33 @@ const Main = () => {
     }
   };
 
-  const fetchYoutube = async () => {
+  const fetchData = async (videoTitle) => {
+    console.log({ videoTitle });
+    try {
+      let res = await axios({
+        method: "get",
+        url: `https://api.spotify.com/v1/search/`,
+        params: {
+          q: videoTitle,
+          type: "track",
+          market: "US",
+          limit: 5,
+        },
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + API_KEY,
+        },
+      });
+      console.log("musicRes: ", res.data.tracks.items);
+      setMusicRes(res.data.tracks.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchYoutube = async (videoID) => {
+    console.log("videoID: ", videoID);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -67,21 +77,24 @@ const Main = () => {
             maxResults: 8,
             key: YT_API_KEY,
             type: "video",
-            q: youtubeID,
+            q: videoID,
           },
         }
       );
-      console.log(res.data.items);
-      setTitle(res.data.items[0].snippet.title);
+      console.log("videoTitle: ", res.data.items[0].snippet.title);
+      return res.data.items[0].snippet.title;
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
+  const runExtension = async () => {
     fetchUser();
-    fetchYoutube();
-    fetchData();
+    getUrl();
+  };
+
+  useEffect(() => {
+    runExtension();
   }, []);
 
   return (
