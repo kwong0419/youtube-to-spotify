@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     fetchWindow();
     let a = document.querySelector(".title.ytd-video-primary-info-renderer");
-    console.log(a);
+    console.log("hi");
   }, []);
 
   return (
