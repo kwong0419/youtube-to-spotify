@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 1.2,
 
   "name": "Music Extension",
   "description": "Add Music From Youtube to Spotify",
@@ -15,6 +15,10 @@
     "48": "logo-small.png",
     "128": "logo-small.png"
   },
+  "background": {
+    "page": "background.html"
+  },
+
   "permissions": [
     "activeTab",
     "tabs",
