@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import API_KEY from "../util/api";
 import axios from "axios";
 
 const AddForm = ({ uri, song_id }) => {
@@ -15,8 +16,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer BQDk2AiSHtCWAM8I1rSLRD7jrSWUioGxFAwre8kTAAfM-nNeprb-TXKeKbstiYIZqGnfWt_POtkH0Q7uTM_PiQNCQkuk7edgY9s_g8U7dseNcCX7-8HV1XCDFE6yHorlx0YLj_o8mDhfCT08ILGQVQIbAmQTcuImgPJYvA9qkl3qWAh13RCiUP70ADHS_QoYvOfvw5vgDVNA9yiDwDVrOoIAFjcJ-zrozU0Ef67BFihzsx6o5rWO2kgsVFZc3qQPkf6XByt_AW8lPGVL_D9cfSdJZJ_PFGC38fY3",
+          Authorization: "Bearer " + API_KEY,
         },
       });
       setPlaylists(res.data.items);
@@ -34,8 +34,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer BQDk2AiSHtCWAM8I1rSLRD7jrSWUioGxFAwre8kTAAfM-nNeprb-TXKeKbstiYIZqGnfWt_POtkH0Q7uTM_PiQNCQkuk7edgY9s_g8U7dseNcCX7-8HV1XCDFE6yHorlx0YLj_o8mDhfCT08ILGQVQIbAmQTcuImgPJYvA9qkl3qWAh13RCiUP70ADHS_QoYvOfvw5vgDVNA9yiDwDVrOoIAFjcJ-zrozU0Ef67BFihzsx6o5rWO2kgsVFZc3qQPkf6XByt_AW8lPGVL_D9cfSdJZJ_PFGC38fY3",
+          Authorization: "Bearer " + API_KEY,
         },
       });
       setTogglePlaylistMessage(true);
