@@ -81,8 +81,14 @@ const Main = () => {
           },
         }
       );
-      console.log("videoTitle: ", res.data.items[0].snippet.title);
-      return res.data.items[0].snippet.title;
+      let title = res.data.items[0].snippet.title;
+      console.log("videoTitle: ", title);
+      if (title.includes("(")) {
+        title = title.split("(")[0];
+      }
+      console.log("videoTitle: ", title);
+
+      return title;
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +114,6 @@ const Main = () => {
           alt="close"
           src="https://static.thenounproject.com/png/73078-200.png"
         />
-        {/* <i class="fas fa-window-close"></i> */}
         <img
           alt="profile"
           id="profileIcon"
@@ -117,6 +122,7 @@ const Main = () => {
             setShowQr(!showQr);
           }}
         />
+        <h2 className="titleTag">YouTube to Spotify</h2>
         {showQr ? (
           <img
             id="qrImg"
