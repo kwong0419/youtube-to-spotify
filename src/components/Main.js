@@ -42,7 +42,6 @@ const Main = ({ title }) => {
   };
 
   const fetchData = async (videoTitle) => {
-    // console.log({ videoTitle });
     try {
       let res = await axios({
         method: "get",
@@ -67,7 +66,6 @@ const Main = ({ title }) => {
   };
 
   const fetchYoutube = async (videoID) => {
-    // console.log("videoID: ", videoID);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -81,8 +79,13 @@ const Main = ({ title }) => {
           },
         }
       );
-      // console.log("videoTitle: ", res.data.items[0].snippet.title);
-      return res.data.items[0].snippet.title;
+      let title = res.data.items[0].snippet.title;
+      if (title.includes("(")) {
+        title = title.split("(")[0];
+      }
+      console.log("videoTitle: ", title);
+
+      return title;
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +111,6 @@ const Main = ({ title }) => {
           alt="close"
           src="https://static.thenounproject.com/png/73078-200.png"
         />
-        {/* <i class="fas fa-window-close"></i> */}
         <img
           alt="profile"
           id="profileIcon"
@@ -117,6 +119,7 @@ const Main = ({ title }) => {
             setShowQr(!showQr);
           }}
         />
+        <h2 className="titleTag">YouTube to Spotify</h2>
         {showQr ? (
           <img
             id="qrImg"
