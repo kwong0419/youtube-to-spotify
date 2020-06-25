@@ -5,7 +5,7 @@ import { API_KEY, YT_API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/Main.css";
 
-const Main = () => {
+const Main = ({ title }) => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
@@ -15,9 +15,9 @@ const Main = () => {
       { active: true, lastFocusedWindow: true },
       async (tabs) => {
         let url = tabs[0].url;
-        console.log("url: ", url.split("v=")[1]);
+        // console.log("url: ", url.split("v=")[1]);
         let id = url.split("v=")[1];
-        let title = await fetchYoutube(id);
+        // let title = await fetchYoutube(id);
         await fetchData(title);
         // use `url` here inside the callback because it's asynchronous!
       }
@@ -42,7 +42,7 @@ const Main = () => {
   };
 
   const fetchData = async (videoTitle) => {
-    console.log({ videoTitle });
+    // console.log({ videoTitle });
     try {
       let res = await axios({
         method: "get",
@@ -67,7 +67,7 @@ const Main = () => {
   };
 
   const fetchYoutube = async (videoID) => {
-    console.log("videoID: ", videoID);
+    // console.log("videoID: ", videoID);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -81,7 +81,7 @@ const Main = () => {
           },
         }
       );
-      console.log("videoTitle: ", res.data.items[0].snippet.title);
+      // console.log("videoTitle: ", res.data.items[0].snippet.title);
       return res.data.items[0].snippet.title;
     } catch (error) {
       console.log(error);

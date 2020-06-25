@@ -1,16 +1,18 @@
-// window.onload = function () {
-//   let title = document.querySelector(".title.ytd-video-primary-info-renderer")
-//     .innerText;
-//   console.log("this is the title: " + title);
-//   sessionStorage.setItem("title", title);
-// };
-
-window.addEventListener("load", printTitle);
+var loadfunction = window.onload;
+window.onload = function (event) {
+  printTitle();
+  if (loadfunction) loadfunction(event);
+};
 
 function printTitle() {
   let selectedTitle = document.querySelector(
     ".title.ytd-video-primary-info-renderer"
-  ).innerText;
-
+  ).textContent;
   console.log(selectedTitle);
+  if (selectedTitle.length > 0) {
+    let message = {
+      title: selectedTitle,
+    };
+    chrome.runtime.sendMessage(message);
+  }
 }

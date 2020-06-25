@@ -11,17 +11,19 @@ function App() {
       let url = tabs[0].url;
       setCurrenturl(url);
     });
+
+    let bgPage = chrome.extension.getBackgroundPage();
+    let title = bgPage.title;
+    console.log("video title: ", title);
   };
 
   useEffect(() => {
     fetchWindow();
-    let a = document.querySelector(".title.ytd-video-primary-info-renderer");
-    console.log("hi");
   }, []);
 
   return (
     <div className="App">
-      {currentUrl.includes("youtube") ? <Main /> : <ErrorPage />}
+      {currentUrl.includes("youtube") ? <Main title={title} /> : <ErrorPage />}
     </div>
   );
 }
