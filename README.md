@@ -1,4 +1,4 @@
-###About
+### `About`
 This Chrome extension let's users add music from youtube to the a user's spotify play list.
 
 
