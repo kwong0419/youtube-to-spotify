@@ -1,3 +1,7 @@
+###About
+This Chrome extension let's users add music from youtube to the a user's spotify play list.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
