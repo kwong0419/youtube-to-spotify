@@ -28,13 +28,5 @@
     "scripts": ["background.js"]
   },
 
-  "permissions": [
-    "activeTab",
-    "tabs",
-    "*://*.youtube.com/*",
-    "youtube.com/",
-    "storage",
-    "webNavigation",
-    "*://*/*"
-  ]
+  "permissions": ["activeTab", "tabs", "storage", "webNavigation", "*://*/*"]
 }

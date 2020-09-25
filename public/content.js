@@ -1,8 +1,15 @@
-var loadfunction = window.onload;
-window.onload = function (event) {
-  printTitle();
-  if (loadfunction) loadfunction(event);
-};
+// var loadfunction = window.onload;
+// window.onload = function (event) {
+//   printTitle();
+//   if (loadfunction) loadfunction(event);
+// };
+
+document.addEventListener("readystatechange", (event) => {
+  if (event.target.readyState === "complete") {
+    //add your code here
+    printTitle();
+  }
+});
 
 function printTitle() {
   let selectedTitle = document.querySelector(

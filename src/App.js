@@ -6,15 +6,16 @@ import "./App.css";
 
 function App() {
   const [currentUrl, setCurrenturl] = useState("");
+  const [title, setTitle] = useState("");
+
   const fetchWindow = () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
       let url = tabs[0].url;
       setCurrenturl(url);
     });
-
-    let bgPage = chrome.extension.getBackgroundPage();
-    let title = bgPage.title;
-    console.log("video title: ", title);
+    // let bgPage = chrome.extension.getBackgroundPage();
+    // setTitle(bgPage.title);
+    // console.log("video title: ", title);
   };
 
   useEffect(() => {

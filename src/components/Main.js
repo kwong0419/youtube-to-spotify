@@ -15,9 +15,9 @@ const Main = ({ title }) => {
       { active: true, lastFocusedWindow: true },
       async (tabs) => {
         let url = tabs[0].url;
-        // console.log("url: ", url.split("v=")[1]);
+        console.log("url: ", url.split("v=")[1]);
         let id = url.split("v=")[1];
-        // let title = await fetchYoutube(id);
+        let title = await fetchYoutube(id);
         await fetchData(title);
         // use `url` here inside the callback because it's asynchronous!
       }
@@ -42,6 +42,7 @@ const Main = ({ title }) => {
   };
 
   const fetchData = async (videoTitle) => {
+    console.log({ videoTitle });
     try {
       let res = await axios({
         method: "get",
@@ -66,6 +67,7 @@ const Main = ({ title }) => {
   };
 
   const fetchYoutube = async (videoID) => {
+    console.log("videoID: ", videoID);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -80,11 +82,11 @@ const Main = ({ title }) => {
         }
       );
       let title = res.data.items[0].snippet.title;
+      console.log("videoTitle: ", title);
       if (title.includes("(")) {
         title = title.split("(")[0];
       }
       console.log("videoTitle: ", title);
-
       return title;
     } catch (error) {
       console.log(error);
@@ -97,6 +99,7 @@ const Main = ({ title }) => {
   };
 
   useEffect(() => {
+    // if (!userId) setOpen(true);
     runExtension();
   }, []);
 
