@@ -4,11 +4,15 @@ import MusicCard from "./musicCard/MusicCards";
 import { API_KEY, YT_API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/Main.css";
+//sign in dialog
+import SigninDialog from "./SigninDialog";
 
 const Main = ({ title }) => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
 
   const getUrl = async () => {
     return chrome.tabs.query(
@@ -99,7 +103,7 @@ const Main = ({ title }) => {
   };
 
   useEffect(() => {
-    // if (!userId) setOpen(true);
+    if (!currentUser) setOpen(true);
     runExtension();
   }, []);
 
@@ -143,6 +147,7 @@ const Main = ({ title }) => {
           <h3>loading ...</h3>
         )}
       </div>
+      <SigninDialog setOpen={setOpen} open={open} />
     </div>
   );
 };
