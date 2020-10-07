@@ -35,6 +35,12 @@
     "youtube.com/",
     "storage",
     "webNavigation",
-    "*://*/*"
-  ]
+    "*://*/*",
+    "identity",
+    "storage"
+  ],
+  "env": {
+    // ...
+    "webextensions": true
+  }
 }

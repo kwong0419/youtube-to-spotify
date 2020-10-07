@@ -1,15 +1,17 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
 import MusicCard from "./musicCard/MusicCards";
-import { API_KEY, YT_API_KEY } from "../util/api";
+// import { API_KEY, YT_API_KEY } from "../"
 import axios from "axios";
 import "../css/Main.css";
+let API_KEY = 0;
+let YT_API_KEY = "AIzaSyAlgERhzHiVlNo9CQuXwUkVOgbc9m1UESQ";
 
-const Main = ({ title }) => {
+const Main = ({ userAccessToken }) => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
-
+  const [userID, setuserID] = useState("");
   const getUrl = async () => {
     return chrome.tabs.query(
       { active: true, lastFocusedWindow: true },
@@ -18,6 +20,8 @@ const Main = ({ title }) => {
         // console.log("url: ", url.split("v=")[1]);
         let id = url.split("v=")[1];
         // let title = await fetchYoutube(id);
+        let title = "Kendrick Lamar - HUMBLE";
+
         await fetchData(title);
         // use `url` here inside the callback because it's asynchronous!
       }
@@ -32,7 +36,7 @@ const Main = ({ title }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       setUserURI(res.data.uri);
@@ -55,7 +59,7 @@ const Main = ({ title }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       console.log("musicRes: ", res.data.tracks.items);
@@ -135,7 +139,7 @@ const Main = ({ title }) => {
       </div>
       <div className="resultsList">
         {musicRes.length ? (
-          <MusicCard result={musicRes} />
+          <MusicCard result={musicRes} userAccessToken={userAccessToken} />
         ) : (
           <h3>loading ...</h3>
         )}

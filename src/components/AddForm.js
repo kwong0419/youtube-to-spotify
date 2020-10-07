@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { API_KEY } from "../util/api";
+// import { API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/AddForm.css";
+let API_KEY = 0;
 
-const AddForm = ({ uri, song_id }) => {
+const AddForm = ({ uri, song_id, userAccessToken }) => {
   const [playlists, setPlaylists] = useState([]);
   const [currentPlaylist, setCurrentPlaylist] = useState("");
   const [togglePlaylistMessage, setTogglePlaylistMessage] = useState(false);
@@ -17,7 +18,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       setPlaylists(res.data.items);
@@ -35,7 +36,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       setTogglePlaylistMessage(true);
@@ -52,7 +53,7 @@ const AddForm = ({ uri, song_id }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       setToggleLibraryMessage(true);
