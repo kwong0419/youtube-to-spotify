@@ -1,5 +1,6 @@
 import React from "react";
 import AddForm from "../AddForm";
+import Song from "./song";
 // import "../css/MusicCard.css";
 
 const MusicCard = ({ result, userAccessToken }) => {
@@ -7,7 +8,7 @@ const MusicCard = ({ result, userAccessToken }) => {
     return (
       <div className="individualMusicCardDiv">
         <div className="musicInfoDiv">
-          <h3 className="title">{song.name}</h3>
+          {/* <h3 className="title">{song.name}</h3>
           <p className="artist">{song.artists[0].name}</p>
         </div>
         <div className="albumDiv">
@@ -15,6 +16,13 @@ const MusicCard = ({ result, userAccessToken }) => {
             alt="album"
             className="albumImg"
             src={song.album.images[1].url}
+          />  */}
+          <Song
+            title={song.name}
+            artist={song.artists[0].name}
+            albumImg={song.album.images[1].url}
+            preview_url={song.preview_url}
+            explicit={song.explicit}
           />
         </div>
         <div className="addFormDiv">

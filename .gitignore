@@ -12,6 +12,7 @@
 /build
 
 /src/util/api.js
+/src/util/secrets.js
 
 # misc
 .DS_Store

@@ -2,11 +2,9 @@
 import React, { useState, useEffect } from "react";
 import MusicCard from "./musicCard/MusicCards";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import { YT_API_KEY } from "../util/secrets";
 import axios from "axios";
 import "../css/Main.css";
-
-let YT_API_KEY = encodeURIComponent("AIzaSyCSSnGEZBZbz7Uh0msmYVXjobnxy7iv4rA");
 
 const Main = ({ userAccessToken }) => {
   const [musicRes, setMusicRes] = useState([]);
@@ -24,6 +22,11 @@ const Main = ({ userAccessToken }) => {
         let url = tabs[0].url;
         console.log("url: ", url.split("v=")[1]);
         let id = url.split("v=")[1];
+        //checks if extra part to url
+        if (id.includes("&")) {
+          id = id.split("&")[0];
+        }
+
         let title = await fetchYoutube(id);
         console.log(title);
 
@@ -72,8 +75,7 @@ const Main = ({ userAccessToken }) => {
           q: videoTitle,
           type: "track",
           market: "US",
-          limit: 7,
-          popularity: 100,
+          limit: 10,
         },
         headers: {
           Accept: "application/json",
@@ -88,7 +90,10 @@ const Main = ({ userAccessToken }) => {
       if (!musicRes.length) {
         setNoVideoDisplay("block");
       }
-      setMusicRes(res.data.tracks.items);
+      let sortedData = res.data.tracks.items.sort(function (a, b) {
+        return b.popularity - a.popularity;
+      });
+      setMusicRes(sortedData);
     } catch (error) {
       console.log(error);
       setProgress("none");
