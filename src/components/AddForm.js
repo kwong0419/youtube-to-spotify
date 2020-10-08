@@ -2,14 +2,21 @@ import React, { useState, useEffect } from "react";
 // import { API_KEY } from "../util/api";
 import axios from "axios";
 import "../css/AddForm.css";
-let API_KEY = 0;
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const AddForm = ({ uri, song_id, userAccessToken }) => {
   const [playlists, setPlaylists] = useState([]);
   const [currentPlaylist, setCurrentPlaylist] = useState("");
   const [togglePlaylistMessage, setTogglePlaylistMessage] = useState(false);
   const [toggleLibraryMessage, setToggleLibraryMessage] = useState(false);
+  const [open, setOpen] = useState(false);
 
+  //get all playlists
   const fetchPlaylists = async () => {
     try {
       let res = await axios({
@@ -27,6 +34,16 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
     }
   };
 
+  //snack bar close
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  //add song to a certain playlist
   const handleSubmitPlaylist = async (e) => {
     e.preventDefault();
     try {
@@ -39,6 +56,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
           Authorization: "Bearer " + userAccessToken,
         },
       });
+      setOpen(true);
       setTogglePlaylistMessage(true);
     } catch (error) {
       console.log(error);
@@ -56,6 +74,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
           Authorization: "Bearer " + userAccessToken,
         },
       });
+      setOpen(true);
       setToggleLibraryMessage(true);
     } catch (error) {
       console.log(error);
@@ -94,9 +113,9 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
           <span>Add to Playlist</span>
         </button>
       </form>
-      {togglePlaylistMessage ? (
+      {/* {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>
-      ) : null}
+      ) : null} */}
 
       <button
         id="libraryBtn"
@@ -107,9 +126,14 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
         <span>Add to Library</span>
       </button>
 
-      {toggleLibraryMessage ? (
+      {/* {toggleLibraryMessage ? (
         <h3 id="libraryMsg">Song successfully saved to Library</h3>
-      ) : null}
+      ) : null} */}
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success">
+          Your Song Has been added!
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

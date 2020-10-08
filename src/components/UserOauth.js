@@ -54,48 +54,38 @@ const UserOauthDisplay = ({ userAccessToken, setUserAccessToken }) => {
             // sendResponse({ message: "fail" });
             console.log("fail2");
           } else {
-            ACCESS_TOKEN = redirect_url.substring(
-              redirect_url.indexOf("access_token=") + 13
-            );
-
-            ACCESS_TOKEN = ACCESS_TOKEN.substring(0, ACCESS_TOKEN.indexOf("&"));
-            let state = redirect_url.substring(
-              redirect_url.indexOf("state=") + 6
-            );
-
-            setUserAccessToken(ACCESS_TOKEN);
-            if (state === STATE) {
-              console.log("SUCCESS");
-              user_signed_in = true;
-              setTimeout(() => {
-                ACCESS_TOKEN = "";
-                user_signed_in = false;
-                chrome.storage.sync.set({ SK: "" }, function () {
-                 
-                });
-              }, 7200000);
-
-              chrome.browserAction.setPopup(
-                { popup: "./index.html" },
-                () => {}
-              );
-              chrome.storage.sync.set({ SK: ACCESS_TOKEN }, function () {
-                console.log("Value is set to " + ACCESS_TOKEN);
-              });
-            }
+            handleKey(redirect_url);
           }
         }
       }
     );
     return ACCESS_TOKEN;
   };
+  const handleKey = (redirect_url) => {
+    ACCESS_TOKEN = redirect_url.substring(
+      redirect_url.indexOf("access_token=") + 13
+    );
 
+    ACCESS_TOKEN = ACCESS_TOKEN.substring(0, ACCESS_TOKEN.indexOf("&"));
+    let state = redirect_url.substring(redirect_url.indexOf("state=") + 6);
+    chrome.storage.sync.set({ SK: ACCESS_TOKEN }, function () {
+      console.log("Value is set to " + ACCESS_TOKEN);
+    });
+    if (state === STATE) {
+      console.log("SUCCESS");
+      user_signed_in = true;
+      setTimeout(() => {
+        ACCESS_TOKEN = "";
+        user_signed_in = false;
+        chrome.storage.sync.set({ SK: "" }, function () {});
+      }, 100000);
+
+      //   7200000
+
+      chrome.browserAction.setPopup({ popup: "./index.html" }, () => {});
+    }
+  };
   const handleClick = async () => {
-    // chrome.runtime.sendMessage({ message: "login" }, function (response) {
-    //   if (response.message === "success") window.close();
-    //   console.log("hi");
-    //   setUserId("20");
-    // });
     userOauthFlow();
   };
 
