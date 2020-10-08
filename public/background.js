@@ -1,10 +1,16 @@
-console.log("background running");
+/*global chrome*/
+// console.log("background running");
+// let title = document.querySelector(".title.ytd-video-primary-info-renderer")
+//   .textContent;
 
-chrome.runtime.onMessage.addListener(receiver);
+// chrome.storage.sync.set({ title: title });
+// console.log("first" + title);
 
-window.title = "";
+// chrome.runtime.onMessage.addListener(receiver);
 
-function receiver(request, sender, sendResponse) {
-  console.log(request);
-  window.title = request.title;
-}
+// window.title = "";
+
+// function receiver(request, sender, sendResponse) {
+//   console.log(request);
+//   window.title = request.title;
+// }

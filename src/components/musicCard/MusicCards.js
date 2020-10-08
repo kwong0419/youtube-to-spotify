@@ -1,8 +1,8 @@
 import React from "react";
 import AddForm from "../AddForm";
-import "../../css/MusicCard.css";
+// import "../css/MusicCard.css";
 
-const MusicCard = ({ result }) => {
+const MusicCard = ({ result, userAccessToken }) => {
   const display = result.map((song) => {
     return (
       <div className="individualMusicCardDiv">
@@ -18,7 +18,11 @@ const MusicCard = ({ result }) => {
           />
         </div>
         <div className="addFormDiv">
-          <AddForm uri={song.uri} song_id={song.id} />
+          <AddForm
+            uri={song.uri}
+            song_id={song.id}
+            userAccessToken={userAccessToken}
+          />
         </div>
       </div>
     );

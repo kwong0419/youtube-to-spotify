@@ -1,29 +1,46 @@
 /*global chrome*/
 import React, { useState, useEffect } from "react";
 import MusicCard from "./musicCard/MusicCards";
-import { API_KEY, YT_API_KEY } from "../util/api";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 import axios from "axios";
 import "../css/Main.css";
 
-const Main = ({ title }) => {
+let YT_API_KEY = encodeURIComponent("AIzaSyCSSnGEZBZbz7Uh0msmYVXjobnxy7iv4rA");
+
+const Main = ({ userAccessToken }) => {
   const [musicRes, setMusicRes] = useState([]);
   const [showQr, setShowQr] = useState(false);
   const [userURI, setUserURI] = useState([]);
+  const [userID, setuserID] = useState("");
+  const [progress, setProgress] = useState("none");
+  const [noVideoDisplay, setNoVideoDisplay] = useState("none");
+  const [musictitle, setMusicTitle] = useState("");
 
   const getUrl = async () => {
     return chrome.tabs.query(
       { active: true, lastFocusedWindow: true },
       async (tabs) => {
         let url = tabs[0].url;
-        // console.log("url: ", url.split("v=")[1]);
+        console.log("url: ", url.split("v=")[1]);
         let id = url.split("v=")[1];
-        // let title = await fetchYoutube(id);
+        let title = await fetchYoutube(id);
+        console.log(title);
+
+        chrome.storage.sync.get(["title"], function (result) {
+          console.log("Value currently is " + result.title);
+        });
+
+        // let title = "Kendrick Lamar - HUMBLE";
+
         await fetchData(title);
+        await setMusicTitle(title);
         // use `url` here inside the callback because it's asynchronous!
       }
     );
   };
 
+  //gets user information
   const fetchUser = async () => {
     try {
       let res = await axios({
@@ -32,16 +49,21 @@ const Main = ({ title }) => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
+      // if (!res.data.uri) chrome.storage.sync.set({ SK: "" }, function () {});
       setUserURI(res.data.uri);
     } catch (error) {
       console.log(error);
+      chrome.storage.sync.set({ SK: "" }, function () {});
     }
   };
 
+  //get songs
+
   const fetchData = async (videoTitle) => {
+    setProgress("block");
     try {
       let res = await axios({
         method: "get",
@@ -50,22 +72,33 @@ const Main = ({ title }) => {
           q: videoTitle,
           type: "track",
           market: "US",
-          limit: 5,
+          limit: 7,
+          popularity: 100,
         },
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: "Bearer " + API_KEY,
+          Authorization: "Bearer " + userAccessToken,
         },
       });
       console.log("musicRes: ", res.data.tracks.items);
+      //stops progress
+      setProgress("none");
+      //no results
+      if (!musicRes.length) {
+        setNoVideoDisplay("block");
+      }
       setMusicRes(res.data.tracks.items);
     } catch (error) {
       console.log(error);
+      setProgress("none");
+      setNoVideoDisplay("block");
     }
   };
 
+  //get youtube information for title
   const fetchYoutube = async (videoID) => {
+    console.log("vid" + videoID, "ky" + YT_API_KEY);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -83,7 +116,6 @@ const Main = ({ title }) => {
       if (title.includes("(")) {
         title = title.split("(")[0];
       }
-      console.log("videoTitle: ", title);
 
       return title;
     } catch (error) {
@@ -97,8 +129,20 @@ const Main = ({ title }) => {
   };
 
   useEffect(() => {
+    setNoVideoDisplay("none");
     runExtension();
   }, []);
+
+  //logout of spot
+  const handleLogout = () => {
+    chrome.storage.sync.set({ SK: "" }, function () {});
+    window.close();
+  };
+  //redo Search
+
+  const redoSearch = () => {
+    fetchData(musictitle);
+  };
 
   return (
     <div className="mainComponent">
@@ -127,18 +171,27 @@ const Main = ({ title }) => {
             src={`https://api.qrserver.com/v1/create-qr-code/?data=${userURI}&amp.png`}
           />
         ) : null}
-
+        <button onClick={handleLogout}>Logout</button>
         {/* <img
           alt="settings"
           src="https://img.icons8.com/material-rounded/24/000000/settings.png"
         /> */}
       </div>
       <div className="resultsList">
+        <p>search term:</p>{" "}
+        <input
+          value={musictitle}
+          onChange={(e) => setMusicTitle(e.currentTarget.value)}
+        />
+        <button onClick={redoSearch}>redo-search</button>
         {musicRes.length ? (
-          <MusicCard result={musicRes} />
+          <MusicCard result={musicRes} userAccessToken={userAccessToken} />
         ) : (
-          <h3>loading ...</h3>
+          <p style={{ display: noVideoDisplay }}>
+            oops! no result try a different video or redo search
+          </p>
         )}
+        <CircularProgress style={{ display: progress }} />
       </div>
     </div>
   );
