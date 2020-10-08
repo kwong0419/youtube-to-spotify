@@ -17,6 +17,7 @@ Please feel free to reach out with any questions!
 
 If you found this helpful you can buy us coffee!
 
-![Image of venmo](https://i.ibb.co/YjDW20r/unnamed.jpg)
 ![Image of venmo](https://i.ibb.co/Wc1hvqf/Screen-Shot-2020-10-08-at-2-36-02-PM.png)
+![Image of venmo](https://i.ibb.co/YjDW20r/unnamed.jpg)
+
 
