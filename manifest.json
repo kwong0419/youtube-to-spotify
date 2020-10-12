@@ -40,7 +40,6 @@
     "storage"
   ],
   "env": {
-    // ...
     "webextensions": true
   }
 }
