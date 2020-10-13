@@ -18,7 +18,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
+      "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_end"
     }
@@ -28,7 +28,14 @@
     "scripts": ["background.js"]
   },
 
-  "permissions": ["*://*.youtube.com/*", "youtube.com/", "identity", "storage"],
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "webNavigation",
+    "identity",
+    "storage"
+  ],
   "env": {
     "webextensions": true
   }
