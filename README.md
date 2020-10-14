@@ -1,7 +1,7 @@
 ### `About`
 
 
-Thanks for checking our Music Extentsion. This Chrome extention lets users add music from YouTube to their Spotify playlist. It can only be launched when on a YouTube page. When launch the Chrome extention will look for a matching songs and diplay to the user.
+Thanks for checking our Music Extension. This Chrome extension lets users add music from YouTube to their Spotify playlist. It can only be launched when on a YouTube page. When launched the Chrome extension will look for a matching song and display to the user.
 
 ![Image of look up song](https://i.ibb.co/zrgQsp9/Screen-Shot-2020-10-08-at-2-28-51-PM.png)
 
