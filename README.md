@@ -1,5 +1,6 @@
 ### `About`
 
+Download from the chrome web store [here!](https://chrome.google.com/webstore/detail/music-extension/dfjdbnkpphnaohmlnmjhjkjeheaaojon?hl=en&authuser=1)
 
 Thanks for checking our Music Extension. This Chrome extension lets users add music from YouTube to their Spotify playlist. It can only be launched when on a YouTube page. When launched the Chrome extension will look for a matching song and display options to the user.
 
