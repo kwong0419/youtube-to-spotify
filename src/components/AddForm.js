@@ -96,6 +96,9 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
           <option value="" selected disabled>
             Select a Playlist
           </option>
+          <option value="new" key="1">
+            create new playlist
+          </option>
           {playlists.map((playlist) => {
             return (
               <option key={playlist.id} value={playlist.id}>
@@ -112,6 +115,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
         >
           <span>Add to Playlist</span>
         </button>
+        <input placeholder="Youtube Playlist" />
       </form>
       {/* {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>
