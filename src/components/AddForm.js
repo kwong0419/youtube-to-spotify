@@ -52,6 +52,11 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
       : setShowNewPlayList("none");
   };
 
+  //create new playlist and add song
+  const addNewPlayList () => {
+    
+  }
+
   //add song to a certain playlist
   const handleSubmitPlaylist = async (e) => {
     e.preventDefault();
