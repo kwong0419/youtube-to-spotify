@@ -12,6 +12,7 @@ function Alert(props) {
 const AddForm = ({ uri, song_id, userAccessToken }) => {
   const [playlists, setPlaylists] = useState([]);
   const [currentPlaylist, setCurrentPlaylist] = useState("");
+  const [showNewPlayList, setShowNewPlayList] = useState("none");
   const [togglePlaylistMessage, setTogglePlaylistMessage] = useState(false);
   const [toggleLibraryMessage, setToggleLibraryMessage] = useState(false);
   const [open, setOpen] = useState(false);
@@ -41,6 +42,14 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
     }
 
     setOpen(false);
+  };
+  //handle selected playlist
+  const handleSelect = (e) => {
+    setCurrentPlaylist(e.target.value);
+
+    e.target.value === "new"
+      ? setShowNewPlayList("block")
+      : setShowNewPlayList("none");
   };
 
   //add song to a certain playlist
@@ -88,11 +97,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
   return (
     <div className="addDiv">
       <form id="formPlaylist" onSubmit={handleSubmitPlaylist}>
-        <select
-          onChange={(e) => setCurrentPlaylist(e.target.value)}
-          name="playlist"
-          id="playlistSelect"
-        >
+        <select onChange={handleSelect} name="playlist" id="playlistSelect">
           <option value="" selected disabled>
             Select a Playlist
           </option>
@@ -115,7 +120,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
         >
           <span>Add to Playlist</span>
         </button>
-        <input placeholder="Youtube Playlist" />
+        <input placeholder="Youtube Playlist" display={showNewPlayList} />
       </form>
       {/* {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>
