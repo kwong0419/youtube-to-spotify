@@ -53,9 +53,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
   };
 
   //create new playlist and add song
-  const addNewPlayList () => {
-    
-  }
+  const addNewPlayList = () => {};
 
   //add song to a certain playlist
   const handleSubmitPlaylist = async (e) => {
@@ -72,6 +70,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
       });
       setOpen(true);
       setTogglePlaylistMessage(true);
+      //reload list
     } catch (error) {
       console.log(error);
     }
