@@ -13,6 +13,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
   const [playlists, setPlaylists] = useState([]);
   const [currentPlaylist, setCurrentPlaylist] = useState("");
   const [showNewPlayList, setShowNewPlayList] = useState("none");
+  const [nameNewPlayList, setNameNewPlayList] = useState("");
   const [togglePlaylistMessage, setTogglePlaylistMessage] = useState(false);
   const [toggleLibraryMessage, setToggleLibraryMessage] = useState(false);
   const [open, setOpen] = useState(false);
@@ -124,7 +125,13 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
         >
           <span>Add to Playlist</span>
         </button>
-        <input placeholder="Youtube Playlist" display={showNewPlayList} />
+        <input
+          placeholder="Youtube Playlist"
+          display={showNewPlayList}
+          onChange={(e) => {
+            setNameNewPlayList(e.target.value);
+          }}
+        />
       </form>
       {/* {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>
