@@ -54,7 +54,24 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
   };
 
   //create new playlist and add song
-  const addNewPlayList = () => {};
+  const addNewPlayList = async () => {
+    try {
+      await axios({
+        method: "post",
+        url: `https://api.spotify.com/v1/users/{user_id}/playlists`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userAccessToken,
+          name: "New Playlist",
+          description: "New playlist description",
+          public: false,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //add song to a certain playlist
   const handleSubmitPlaylist = async (e) => {
