@@ -9,7 +9,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const AddForm = ({ uri, song_id, userAccessToken }) => {
+const AddForm = ({ uri, song_id, userAccessToken, userURI }) => {
   const [playlists, setPlaylists] = useState([]);
   const [currentPlaylist, setCurrentPlaylist] = useState("");
   const [showNewPlayList, setShowNewPlayList] = useState("none");
@@ -30,6 +30,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
           Authorization: "Bearer " + userAccessToken,
         },
       });
+
       setPlaylists(res.data.items);
     } catch (error) {
       console.log(error);
@@ -55,31 +56,44 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
 
   //create new playlist and add song
   const addNewPlayList = async () => {
+    console.log("------user" + userURI);
+    console.log("plsylistname" + nameNewPlayList);
+    console.log("userAccessToken" + userAccessToken);
+
     try {
-      await axios({
+      let res = await axios({
         method: "post",
-        url: `https://api.spotify.com/v1/users/{user_id}/playlists`,
+        url: `https://api.spotify.com/v1/users/${
+          userURI.split("user:")[1]
+        }/playlists`,
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
           Authorization: "Bearer " + userAccessToken,
-          name: "New Playlist",
-          description: "New playlist description",
-          public: false,
+          "Content-Type": "application/json",
         },
+        data: JSON.stringify({
+          name: nameNewPlayList,
+          description: "New playlist",
+          public: false,
+        }),
       });
+      let newID = res.data.id;
+      console.log("the id is1" + res.data.id);
+      await addSongtoPlaylist(newID);
+      console.log("the id is2" + res.data.id);
+      return newID;
     } catch (error) {
+      console.log("the id error is");
       console.log(error);
     }
   };
 
   //add song to a certain playlist
-  const handleSubmitPlaylist = async (e) => {
-    e.preventDefault();
+  const addSongtoPlaylist = async (playlistID) => {
+    console.log("addSongPl" + playlistID);
     try {
       await axios({
         method: "post",
-        url: `https://api.spotify.com/v1/playlists/${currentPlaylist}/tracks?uris=${uri}`,
+        url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks?uris=${uri}`,
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -88,12 +102,27 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
       });
       setOpen(true);
       setTogglePlaylistMessage(true);
-      //reload list
+      fetchPlaylists();
     } catch (error) {
       console.log(error);
     }
   };
 
+  //add song to a certain playlist
+  const handleSubmitPlaylist = async (e) => {
+    e.preventDefault();
+    console.log("value of cpl" + currentPlaylist);
+    if (currentPlaylist === "new") {
+      console.log("test");
+      addNewPlayList();
+      // await addSongtoPlaylist(newID);
+    } else {
+      addSongtoPlaylist(currentPlaylist);
+    }
+
+    //reload list
+  };
+  //handle add to library submit
   const handleClickLibrary = async () => {
     try {
       await axios({
@@ -134,6 +163,13 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
             );
           })}
         </select>
+        <input
+          placeholder="Youtube Playlist"
+          style={{ display: showNewPlayList, paddingTop: 5 }}
+          onChange={(e) => {
+            setNameNewPlayList(e.target.value);
+          }}
+        />
         <button
           id="playlistBtn"
           type="submit"
@@ -142,13 +178,6 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
         >
           <span>Add to Playlist</span>
         </button>
-        <input
-          placeholder="Youtube Playlist"
-          display={showNewPlayList}
-          onChange={(e) => {
-            setNameNewPlayList(e.target.value);
-          }}
-        />
       </form>
       {/* {togglePlaylistMessage ? (
         <h3 id="playlistMsg">Song successfully added to Playlist</h3>

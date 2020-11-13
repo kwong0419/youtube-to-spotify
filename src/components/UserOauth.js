@@ -5,12 +5,14 @@ import axios from "axios";
 
 const CLIENT_ID = encodeURIComponent("7c15aba07d5a4cf394a8b745c6df7bac");
 const RESPONSE_TYPE = encodeURIComponent("token");
-// const REDIRECT_URI = encodeURIComponent(
-//   "https://enlcncnogcnflpiioonanamloaggnemm.chromiumapp.org/"
-// );
+//local redirect
 const REDIRECT_URI = encodeURIComponent(
-  "https://dfjdbnkpphnaohmlnmjhjkjeheaaojon.chromiumapp.org/"
+  "https://enlcncnogcnflpiioonanamloaggnemm.chromiumapp.org/"
 );
+//live redirect
+// const REDIRECT_URI = encodeURIComponent(
+//   "https://dfjdbnkpphnaohmlnmjhjkjeheaaojon.chromiumapp.org/"
+// );
 const SCOPE = encodeURIComponent(
   "ugc-image-upload playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-read-playback-position user-read-recently-played user-top-read user-modify-playback-state user-read-currently-playing user-read-playback-state user-read-private user-read-email user-library-modify user-library-read user-follow-modify user-follow-read streaming app-remote-control"
 );

@@ -3,7 +3,7 @@ import AddForm from "../AddForm";
 import Song from "./song";
 // import "../css/MusicCard.css";
 
-const MusicCard = ({ result, userAccessToken }) => {
+const MusicCard = ({ result, userAccessToken, userURI }) => {
   const display = result.map((song) => {
     return (
       <div className="individualMusicCardDiv">
@@ -30,6 +30,7 @@ const MusicCard = ({ result, userAccessToken }) => {
             uri={song.uri}
             song_id={song.id}
             userAccessToken={userAccessToken}
+            userURI={userURI}
           />
         </div>
       </div>

@@ -190,7 +190,11 @@ const Main = ({ userAccessToken }) => {
         />
         <button onClick={redoSearch}>redo-search</button>
         {musicRes.length ? (
-          <MusicCard result={musicRes} userAccessToken={userAccessToken} />
+          <MusicCard
+            result={musicRes}
+            userAccessToken={userAccessToken}
+            userURI={userURI}
+          />
         ) : (
           <p style={{ display: noVideoDisplay }}>
             oops! no result try a different video or redo search
