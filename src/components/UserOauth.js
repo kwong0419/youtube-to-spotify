@@ -37,11 +37,11 @@ const useStyles = makeStyles((theme) => ({
 
 const CLIENT_ID = encodeURIComponent("7c15aba07d5a4cf394a8b745c6df7bac");
 const RESPONSE_TYPE = encodeURIComponent("token");
-//local redirect
+//local redirect--Below--
 const REDIRECT_URI = encodeURIComponent(
   "https://enlcncnogcnflpiioonanamloaggnemm.chromiumapp.org/"
 );
-//live redirect
+//live redirect --Below--
 // const REDIRECT_URI = encodeURIComponent(
 //   "https://dfjdbnkpphnaohmlnmjhjkjeheaaojon.chromiumapp.org/"
 // );
