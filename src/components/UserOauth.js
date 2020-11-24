@@ -1,6 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Main from "./Main";
 import axios from "axios";
+
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { green } from "@material-ui/core/colors";
+import { red } from "@material-ui/core/colors";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    alignItems: "center",
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: "relative",
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    "&:hover": {
+      backgroundColor: green[700],
+    },
+  },
+
+  buttonProgress: {
+    color: green[500],
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    marginTop: -12,
+    marginLeft: -12,
+  },
+}));
 /* global chrome */
 
 const CLIENT_ID = encodeURIComponent("7c15aba07d5a4cf394a8b745c6df7bac");
@@ -36,12 +68,17 @@ const create_spotify_endpoint = () => {
 &show_dialog=${SHOW_DIALOG}
 `;
 
-  console.log(oauth2_url);
+  // console.log(oauth2_url);
 
   return oauth2_url;
 };
 
 const UserOauthDisplay = ({ userAccessToken, setUserAccessToken }) => {
+  const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const timer = React.useRef();
+
   const userOauthFlow = () => {
     chrome.identity.launchWebAuthFlow(
       {
@@ -52,12 +89,11 @@ const UserOauthDisplay = ({ userAccessToken, setUserAccessToken }) => {
       function (redirect_url) {
         if (chrome.runtime.lastError) {
           //   sendResponse({ message: "fail" });
-          console.log("fail1");
+
           console.log(chrome.runtime.lastError);
         } else {
           if (redirect_url.includes("callback?error=access_denied")) {
             // sendResponse({ message: "fail" });
-            console.log("fail2");
           } else {
             handleKey(redirect_url);
           }
@@ -74,7 +110,7 @@ const UserOauthDisplay = ({ userAccessToken, setUserAccessToken }) => {
     ACCESS_TOKEN = ACCESS_TOKEN.substring(0, ACCESS_TOKEN.indexOf("&"));
     let state = redirect_url.substring(redirect_url.indexOf("state=") + 6);
     chrome.storage.sync.set({ SK: ACCESS_TOKEN }, function () {
-      console.log("Value is set to " + ACCESS_TOKEN);
+      // console.log("Value is set to " + ACCESS_TOKEN);
     });
     if (state === STATE) {
       console.log("SUCCESS");
@@ -92,20 +128,43 @@ const UserOauthDisplay = ({ userAccessToken, setUserAccessToken }) => {
   };
   const handleClick = async () => {
     userOauthFlow();
+
+    setSuccess(false);
+    setLoading(true);
   };
 
   return (
     <>
-      {userAccessToken ? (
+      {userAccessToken.length ? (
         <Main userAccessToken={userAccessToken} />
       ) : (
-        <div>
-          <body>
-            <h1>Sign-In With Your Spotify Account to Use This Extension</h1>
-            <button onClick={handleClick} id="sign-in">
+        <div className={classes.root}>
+          <div className={classes.wrapper}>
+            <div>
+              <body>
+                <h1>Sign In With Your Spotify Account To Use This Extension</h1>
+                {/* <button onClick={handleClick} id="sign-in">
               Sign In
-            </button>
-          </body>
+            </button> */}
+              </body>
+            </div>
+            <Button
+              variant="contained"
+              color="primary"
+              // className={buttonClassname}
+              disabled={loading}
+              onClick={handleClick}
+            >
+              sign in
+              {loading && (
+                <CircularProgress
+                  size={20}
+                  className={classes.buttonProgress}
+                />
+              )}
+            </Button>
+            {loading ? <p>use pop-up to sign in</p> : null}
+          </div>
         </div>
       )}
     </>

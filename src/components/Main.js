@@ -20,7 +20,7 @@ const Main = ({ userAccessToken }) => {
       { active: true, lastFocusedWindow: true },
       async (tabs) => {
         let url = tabs[0].url;
-        console.log("url: ", url.split("v=")[1]);
+
         let id = url.split("v=")[1];
         //checks if extra part to url
         if (id.includes("&")) {
@@ -28,11 +28,8 @@ const Main = ({ userAccessToken }) => {
         }
 
         let title = await fetchYoutube(id);
-        console.log(title);
 
-        chrome.storage.sync.get(["title"], function (result) {
-          console.log("Value currently is " + result.title);
-        });
+        chrome.storage.sync.get(["title"], function (result) {});
 
         // let title = "Kendrick Lamar - HUMBLE";
 
@@ -83,7 +80,7 @@ const Main = ({ userAccessToken }) => {
           Authorization: "Bearer " + userAccessToken,
         },
       });
-      console.log("musicRes: ", res.data.tracks.items);
+
       //stops progress
       setProgress("none");
       //no results
@@ -103,7 +100,6 @@ const Main = ({ userAccessToken }) => {
 
   //get youtube information for title
   const fetchYoutube = async (videoID) => {
-    console.log("vid" + videoID, "ky" + YT_API_KEY);
     try {
       let res = await axios.get(
         `https://www.googleapis.com/youtube/v3/search`,
@@ -177,12 +173,22 @@ const Main = ({ userAccessToken }) => {
           />
         ) : null}
         <button onClick={handleLogout}>Logout</button>
+
         {/* <img
           alt="settings"
           src="https://img.icons8.com/material-rounded/24/000000/settings.png"
         /> */}
       </div>
       <div className="resultsList">
+        <a href="https://open.spotify.com/" target="_blank">
+          <img
+            src={
+              "https://www.flaticon.com/svg/static/icons/svg/2111/2111627.svg"
+            }
+            alt="spotImg"
+            id="spotImg"
+          />
+        </a>
         <p>search term:</p>{" "}
         <input
           value={musictitle}
@@ -201,6 +207,13 @@ const Main = ({ userAccessToken }) => {
           </p>
         )}
         <CircularProgress style={{ display: progress }} />
+        <a
+          id="githubLink"
+          href=" https://github.com/kwong0419/Music-Extension"
+          target="_blank"
+        >
+          <h3 color="white">FAQ or Buy Developers Coffee 🙌 ☕</h3>
+        </a>
       </div>
     </div>
   );
