@@ -131,7 +131,7 @@ const AddForm = ({ uri, song_id, userAccessToken }) => {
       ) : null} */}
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
-          Your Song Has been added!
+          Your Song has been added!
         </Alert>
       </Snackbar>
     </div>
