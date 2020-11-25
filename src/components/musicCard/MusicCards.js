@@ -1,22 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AddForm from "../AddForm";
 import Song from "./song";
+import axios from "axios";
 // import "../css/MusicCard.css";
 
-const MusicCard = ({ result, userAccessToken }) => {
+const MusicCard = ({ result, userAccessToken, userURI }) => {
+  const [playlists, setPlaylists] = useState([]);
+
+  useEffect(() => {
+    fetchPlaylists();
+  }, []);
+
+  const fetchPlaylists = async () => {
+    try {
+      let res = await axios({
+        method: "get",
+        url: `https://api.spotify.com/v1/me/playlists`,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userAccessToken,
+        },
+      });
+
+      setPlaylists(res.data.items);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const display = result.map((song) => {
     return (
       <div className="individualMusicCardDiv">
         <div className="musicInfoDiv">
-          {/* <h3 className="title">{song.name}</h3>
-          <p className="artist">{song.artists[0].name}</p>
-        </div>
-        <div className="albumDiv">
-          <img
-            alt="album"
-            className="albumImg"
-            src={song.album.images[1].url}
-          />  */}
           <Song
             title={song.name}
             artist={song.artists[0].name}
@@ -30,6 +46,9 @@ const MusicCard = ({ result, userAccessToken }) => {
             uri={song.uri}
             song_id={song.id}
             userAccessToken={userAccessToken}
+            userURI={userURI}
+            playlists={playlists}
+            fetchPlaylists={fetchPlaylists}
           />
         </div>
       </div>

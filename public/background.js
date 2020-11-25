@@ -1,4 +1,5 @@
 /*global chrome*/
+
 // console.log("background running");
 // let title = document.querySelector(".title.ytd-video-primary-info-renderer")
 //   .textContent;
