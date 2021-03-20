@@ -17,7 +17,7 @@ const AddForm = ({
   playlists,
   fetchPlaylists,
 }) => {
-  // const [playlists, setPlaylists] = useState([]);
+
   const [currentPlaylist, setCurrentPlaylist] = useState("");
   const [showNewPlayList, setShowNewPlayList] = useState("none");
   const [nameNewPlayList, setNameNewPlayList] = useState("");
@@ -25,24 +25,6 @@ const AddForm = ({
   const [toggleLibraryMessage, setToggleLibraryMessage] = useState(false);
   const [open, setOpen] = useState(false);
 
-  //get all playlists
-  // const fetchPlaylists = async () => {
-  //   try {
-  //     let res = await axios({
-  //       method: "get",
-  //       url: `https://api.spotify.com/v1/me/playlists`,
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer " + userAccessToken,
-  //       },
-  //     });
-
-  //     setPlaylists(res.data.items);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   //snack bar close
   const handleClose = (event, reason) => {
@@ -60,11 +42,11 @@ const AddForm = ({
       ? setShowNewPlayList("block")
       : setShowNewPlayList("none");
   };
-  // useEffect(() => {
-  //   fetchPlaylists();
-  // }, []);
-  //create new playlist and add song
+
+  //create new playlist 
   const addNewPlayList = async () => {
+    //post request takes // userURI
+    
     try {
       let res = await axios({
         method: "post",
@@ -89,7 +71,7 @@ const AddForm = ({
     }
   };
 
-  //add song to a certain playlist
+  //add song to a exisiting playlist
   const addSongtoPlaylist = async (playlistID) => {
     console.log("addSongPl" + playlistID);
 
@@ -103,8 +85,8 @@ const AddForm = ({
           Authorization: "Bearer " + userAccessToken,
         },
       });
+      
       //hide playlist input
-
       setOpen(true);
       setTogglePlaylistMessage(true);
       // reload
@@ -112,22 +94,22 @@ const AddForm = ({
     } catch (error) {
       console.log(error);
     }
-    // // reload
-    // fetchPlaylists();
+
   };
 
-  //add song to a certain playlist
+  //handle the add submit based on new or exisiting playlist
   const handleSubmitPlaylist = async (e) => {
     e.preventDefault();
-    console.log("addSongPl" + currentPlaylist);
-
+    //console.log("addSongPl" + currentPlaylist);
     if (currentPlaylist === "new") {
       addNewPlayList();
     } else {
       addSongtoPlaylist(currentPlaylist);
     }
-    //reload list
+   
   };
+  
+  
   //handle add to library submit
   const handleClickLibrary = async () => {
     try {
@@ -148,11 +130,8 @@ const AddForm = ({
     }
   };
 
-  // useEffect(() => {
-  //   fetchPlaylists();
-  // }, []);
-  console.log(playlists);
 
+//display add form component
   return (
     <div className="addDiv">
       <form id="formPlaylist">
@@ -204,13 +183,7 @@ const AddForm = ({
           </button>
         </div>
       </form>
-      {/* {togglePlaylistMessage ? (
-        <h3 id="playlistMsg">Song successfully added to Playlist</h3>
-      ) : null} */}
-
-      {/* {toggleLibraryMessage ? (
-        <h3 id="libraryMsg">Song successfully saved to Library</h3>
-      ) : null} */}
+    
       <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success">
           Your Song has been added!
