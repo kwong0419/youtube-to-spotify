@@ -45,7 +45,7 @@ const AddForm = ({
 
   //create new playlist 
   const addNewPlayList = async () => {
-    //post request takes // userURI
+    //post request takes / userURI /name/
     
     try {
       let res = await axios({
@@ -63,6 +63,7 @@ const AddForm = ({
           public: false,
         }),
       });
+      //id of new playlist created 
       let newID = res.data.id;
       // waits for res and uses playlist id to add song
       await addSongtoPlaylist(newID);
@@ -71,7 +72,7 @@ const AddForm = ({
     }
   };
 
-  //add song to a exisiting playlist
+  //add song to a playlist
   const addSongtoPlaylist = async (playlistID) => {
     console.log("addSongPl" + playlistID);
 
@@ -88,8 +89,9 @@ const AddForm = ({
       
       //hide playlist input
       setOpen(true);
+      //success message
       setTogglePlaylistMessage(true);
-      // reload
+      // reloads playlist 
       fetchPlaylists();
     } catch (error) {
       console.log(error);
