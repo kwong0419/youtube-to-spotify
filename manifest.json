@@ -1,11 +1,11 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
-  "name": "Music Extension",
+  "name": "YouTube to Spotify",
   "description": "Add Music From Youtube to Spotify",
-  "version": "0.0.1",
+  "version": "1.0.0",
 
-  "browser_action": {
+  "action": {
     "default_popup": "index.html",
     "default_title": "Add to Spotify"
   },
@@ -25,17 +25,14 @@
   ],
 
   "background": {
-    "scripts": ["background.js"]
+    "service_worker": "background.js",
+    "type": "module"
   },
 
-  "permissions": [
-    "activeTab",
-    "tabs",
-    "storage",
-    "webNavigation",
-    "identity",
-    "storage"
-  ],
+  "permissions": ["activeTab", "storage", "identity"],
+
+  "host_permissions": ["https://*.youtube.com/*", "https://api.spotify.com/*"],
+
   "env": {
     "webextensions": true
   }
