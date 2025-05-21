@@ -1,20 +1,19 @@
 import {styled} from '@mui/material/styles'
-import {Card, CardContent, CardMedia, Typography} from '@mui/material'
+import {Card, CardContent, Typography} from '@mui/material'
 
 interface SongProps {
   title: string
   artist: string
-  albumImg: string
-  preview_url: string
   explicit: boolean
+  uri: string
 }
 
 const StyledCard = styled(Card)({
   display: 'flex',
   padding: '12px',
   borderRadius: '8px',
-  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  backgroundColor: '#fff',
+  boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+  backgroundColor: '#424242',
   height: 'fit-content',
   width: '100%',
 })
@@ -31,13 +30,6 @@ const Content = styled(CardContent)({
   padding: '8px 16px !important',
 })
 
-const Cover = styled(CardMedia)({
-  width: 100,
-  height: 100,
-  borderRadius: '4px',
-  objectFit: 'cover',
-})
-
 const Controls = styled('div')({
   display: 'flex',
   alignItems: 'center',
@@ -45,36 +37,73 @@ const Controls = styled('div')({
   paddingBottom: '8px',
 })
 
-const ActionButtons = styled('div')({
-  display: 'flex',
-  gap: '8px',
-  marginTop: '8px',
+const PlayerContainer = styled('div')({
+  width: '100%',
+  height: '80px',
+  borderRadius: '4px',
+  overflow: 'hidden',
 })
 
-const Song: React.FC<SongProps> = ({title, artist, albumImg, preview_url, explicit}) => {
+const SongTitle = styled(Typography)({
+  fontSize: '1rem',
+  fontWeight: 500,
+  color: '#E0E0E0',
+})
+
+const ArtistName = styled(Typography)({
+  fontSize: '0.875rem',
+  color: '#B0B0B0',
+})
+
+const ExplicitLabel = styled(Typography)({
+  fontSize: '0.75rem',
+  color: '#909090',
+  backgroundColor: '#505050',
+  padding: '2px 6px',
+  borderRadius: '3px',
+  display: 'inline-block',
+  marginTop: '4px',
+})
+
+const Title = styled(Typography)({
+  color: 'white',
+  fontWeight: 700,
+  fontSize: '1.5em',
+  marginBottom: 0,
+  alignItems: 'center',
+})
+
+const Artist = styled(Typography)({
+  fontSize: '15px',
+  fontWeight: 500,
+  marginTop: 0,
+})
+
+const Song: React.FC<SongProps> = ({title, artist, explicit, uri}) => {
+  const embedUrl = `https://open.spotify.com/embed/track/${uri.split(':')[2]}?utm_source=generator&theme=0`
+
   return (
     <StyledCard>
       <Details>
         <Content>
-          <Typography component="h2" variant="subtitle1">
-            {title}
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary">
-            {artist}
-          </Typography>
-          {explicit && (
-            <Typography variant="subtitle2" color="text.secondary">
-              E
-            </Typography>
-          )}
+          <SongTitle>{title}</SongTitle>
+          <ArtistName>{artist}</ArtistName>
+          {explicit && <ExplicitLabel>EXPLICIT</ExplicitLabel>}
         </Content>
         <Controls>
-          <audio controls>
-            <source src={preview_url} type="audio/mpeg" />
-          </audio>
+          <PlayerContainer>
+            <iframe
+              style={{borderRadius: '12px'}}
+              src={embedUrl}
+              width="100%"
+              height="80"
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </PlayerContainer>
         </Controls>
       </Details>
-      <Cover sx={{width: 100, height: 100}} image={albumImg} title={`${title} album cover`} />
     </StyledCard>
   )
 }
