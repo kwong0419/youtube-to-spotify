@@ -18,9 +18,8 @@
 
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "run_at": "document_end"
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["content.js"]
     }
   ],
 
@@ -29,11 +28,13 @@
     "type": "module"
   },
 
-  "permissions": ["activeTab", "storage", "identity"],
+  "permissions": ["activeTab", "storage", "identity", "tabs"],
 
-  "host_permissions": ["https://*.youtube.com/*", "https://api.spotify.com/*"],
+  "host_permissions": ["https://*.youtube.com/*", "https://api.spotify.com/*", "https://accounts.spotify.com/*"],
 
-  "env": {
-    "webextensions": true
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_width": "800",
+    "default_height": "500"
   }
 }
