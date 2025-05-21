@@ -17,7 +17,6 @@ const getVideoTitle = async (): Promise<string> => {
       // If we can't get the tab, fall back to using tab title directly
       if (!tab?.id) {
         const tabTitle = tab?.title?.replace(' - YouTube', '').trim() || ''
-        console.log('Falling back to tab title (no tab id):', tabTitle)
         resolve(tabTitle)
         return
       }
@@ -25,7 +24,6 @@ const getVideoTitle = async (): Promise<string> => {
       try {
         // Get title directly from tab title as a reliable fallback
         const tabTitle = tab.title?.replace(' - YouTube', '').trim() || ''
-        console.log('Got title from tab:', tabTitle)
         resolve(tabTitle)
       } catch (error) {
         console.error('Error getting title:', error)
@@ -141,32 +139,22 @@ const Main: React.FC<MainProps> = ({userAccessToken}) => {
 
   const getYouTubeVideoInfo = (): void => {
     try {
-      console.log('Starting YouTube video info extraction...')
-
       chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         const tab = tabs[0]
 
-        console.log('Current tab:', {
-          url: tab?.url,
-          title: tab?.title,
-        })
-
         if (!tab?.url?.includes('youtube.com/watch')) {
-          console.log('Not a YouTube video page. URL:', tab?.url)
           setError('Not a YouTube video page')
           return
         }
 
         getVideoTitle()
           .then((title) => {
-            console.log('Retrieved video title:', title)
             // Clean up the title before setting and searching
             const cleanTitle = title.trim()
             setVideoTitle(cleanTitle)
 
             // Ensure we have a title before searching
             if (cleanTitle) {
-              console.log('Starting Spotify search for:', cleanTitle)
               searchSpotify(cleanTitle)
             } else {
               setError('Could not get video title')
@@ -200,8 +188,6 @@ const Main: React.FC<MainProps> = ({userAccessToken}) => {
         },
       })
 
-      console.log('Initial search results:', response.data.tracks.items)
-
       // Try to get previews using track endpoint
       const tracksWithPreviews = await Promise.all(
         response.data.tracks.items.map(async (track: SpotifyTrack) => {
@@ -215,7 +201,6 @@ const Main: React.FC<MainProps> = ({userAccessToken}) => {
                   Authorization: `Bearer ${userAccessToken}`,
                 },
               })
-              console.log(`Track ${track.name} preview in ${market}:`, trackResponse.data.preview_url)
               if (trackResponse.data.preview_url) {
                 return {...track, preview_url: trackResponse.data.preview_url}
               }
@@ -226,8 +211,6 @@ const Main: React.FC<MainProps> = ({userAccessToken}) => {
           return track
         }),
       )
-
-      console.log('Final tracks with previews:', tracksWithPreviews)
       setMusicResults(tracksWithPreviews)
     } catch (error) {
       console.error('Spotify search error:', error)
@@ -249,6 +232,11 @@ const Main: React.FC<MainProps> = ({userAccessToken}) => {
             <StyledTextField
               value={videoTitle}
               onChange={(e) => setVideoTitle(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  searchSpotify(videoTitle)
+                }
+              }}
               label="Search term"
               variant="outlined"
               fullWidth

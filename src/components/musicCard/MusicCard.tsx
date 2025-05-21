@@ -45,6 +45,14 @@ const ResultsContainer = styled('div')({
   overflowX: 'hidden',
 })
 
+interface Playlist {
+  id: string
+  name: string
+  owner: {
+    id: string
+  }
+}
+
 const MusicCard = ({
   result,
   userAccessToken,
@@ -54,14 +62,26 @@ const MusicCard = ({
   userAccessToken: string
   userURI: string
 }) => {
-  const [playlists, setPlaylists] = useState([])
+  const [playlists, setPlaylists] = useState<Playlist[]>([])
 
   useEffect(() => {
     fetchPlaylists()
-  }, [])
+  }, [userAccessToken])
 
   const fetchPlaylists = async () => {
     try {
+      // First get the current user's ID
+      const userResponse = await axios({
+        method: 'get',
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+          Authorization: 'Bearer ' + userAccessToken,
+        },
+      })
+
+      const userId = userResponse.data.id
+
+      // Then get all playlists and filter
       let res = await axios({
         method: 'get',
         url: `https://api.spotify.com/v1/me/playlists`,
@@ -72,9 +92,12 @@ const MusicCard = ({
         },
       })
 
-      setPlaylists(res.data.items)
+      // Filter playlists to only include those owned by the current user
+      const userPlaylists = res.data.items.filter((playlist: Playlist) => playlist.owner.id === userId)
+
+      setPlaylists(userPlaylists)
     } catch (error) {
-      console.log(error)
+      console.error('Error fetching playlists:', error)
     }
   }
 

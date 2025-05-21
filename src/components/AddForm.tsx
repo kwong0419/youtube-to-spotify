@@ -149,9 +149,20 @@ const Select = styled('select')({
   color: '#E0E0E0',
   border: '1px solid #666666',
   padding: '8px',
+  marginBottom: '10px',
+  width: '100%', // Ensure full width
   '&:focus': {
     outline: 'none',
     borderColor: '#888888',
+  },
+  '& option': {
+    padding: '8px',
+    backgroundColor: '#424242',
+    color: '#E0E0E0',
+  },
+  // Style the dropdown itself
+  '& optgroup, & option': {
+    backgroundColor: '#424242',
   },
 })
 
@@ -167,6 +178,7 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
   const [togglePlaylistMessage, setTogglePlaylistMessage] = useState(false)
   const [toggleLibraryMessage, setToggleLibraryMessage] = useState(false)
   const [open, setOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
 
   const handleSnackbarClose = (event: Event | SyntheticEvent<any, Event>, reason: string) => {
     if (reason === 'clickaway') return
@@ -185,12 +197,21 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
 
   //create new playlist
   const addNewPlayList = async () => {
-    //post request takes / userURI /name/
-
     try {
+      // Get user profile first to get the correct user ID
+      const userResponse = await axios({
+        method: 'get',
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+          Authorization: 'Bearer ' + userAccessToken,
+        },
+      })
+
+      console.log('Creating new playlist...')
+      // Use the user ID directly from the profile
       let res = await axios({
         method: 'post',
-        url: `https://api.spotify.com/v1/users/${userURI.split('user:')[1]}/playlists`,
+        url: `https://api.spotify.com/v1/users/${userResponse.data.id}/playlists`,
         headers: {
           Authorization: 'Bearer ' + userAccessToken,
           'Content-Type': 'application/json',
@@ -201,19 +222,29 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
           public: false,
         }),
       })
-      //id of new playlist created
+
       let newID = res.data.id
-      // waits for res and uses playlist id to add song
-      await addSongtoPlaylist(newID)
+
+      // Add a small delay to ensure Spotify's API has processed the new playlist
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      // Fetch playlists first to ensure we have the latest data
+      await fetchPlaylists()
+
+      // Then add the song to the playlist
+      await addSongtoPlaylist(newID, true)
+
+      // Reset form after everything is complete
+      setShowNewPlayList('none')
+      setNameNewPlayList('')
+      setCurrentPlaylist('')
     } catch (error) {
-      console.log(error)
+      console.error('Error creating playlist:', error)
     }
   }
 
   //add song to a playlist
-  const addSongtoPlaylist = async (playlistID: string) => {
-    console.log('addSongPl' + playlistID)
-
+  const addSongtoPlaylist = async (playlistID: string, isNewPlaylist = false) => {
     try {
       await axios({
         method: 'post',
@@ -226,6 +257,7 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
       })
 
       //hide playlist input
+      setSnackbarMessage(isNewPlaylist ? 'Playlist Created and song added!' : 'Your Song has been added to Playlist!')
       setOpen(true)
       //success message
       setTogglePlaylistMessage(true)
@@ -233,7 +265,7 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
       // reloads playlist
       fetchPlaylists()
     } catch (error) {
-      console.log(error)
+      console.error('Error adding song to playlist:', error)
     }
   }
 
@@ -259,6 +291,7 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
           Authorization: 'Bearer ' + userAccessToken,
         },
       })
+      setSnackbarMessage('Song added to your Library!')
       setOpen(true)
       setToggleLibraryMessage(true)
       setTimeout(() => setToggleLibraryMessage(false), 2000) // Hide after 2 seconds
@@ -272,23 +305,19 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
   return (
     <AddDiv>
       <FormPlaylist>
-        <Select onChange={handleSelect} id="playlistSelect">
-          <option value="" selected disabled>
+        <Select onChange={handleSelect} id="playlistSelect" value={currentPlaylist}>
+          <option value="" disabled>
             Select a Playlist
           </option>
-          <option value="new" key="1">
-            Create New Playlist
-          </option>
-          {playlists.map((playlist) => {
-            return (
-              <option key={playlist.id} value={playlist.id}>
-                {playlist.name}
-              </option>
-            )
-          })}
+          <option value="new">Create New Playlist</option>
+          {playlists?.map((playlist) => (
+            <option key={playlist.id} value={playlist.id}>
+              {playlist.name}
+            </option>
+          ))}
         </Select>
         <input
-          placeholder="Youtube Playlist"
+          placeholder="New Playlist"
           style={{display: showNewPlayList, paddingTop: 5}}
           onChange={(e) => {
             setNameNewPlayList(e.target.value)
@@ -296,7 +325,11 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
           required
         />
         <div id="addBtn" style={{display: 'flex', flexDirection: 'column', gap: '8px'}}>
-          <PlaylistButton type="submit" style={{verticalAlign: 'middle'}} onClick={handleSubmitPlaylist}>
+          <PlaylistButton
+            type="submit"
+            style={{verticalAlign: 'middle', marginTop: '10px'}}
+            onClick={handleSubmitPlaylist}
+          >
             <span>Add to Playlist</span>
           </PlaylistButton>
           <LibraryButton onClick={handleClickLibrary} type="button" style={{verticalAlign: 'middle'}}>
@@ -310,7 +343,7 @@ const AddForm: React.FC<AddFormProps> = ({uri, song_id, userAccessToken, userURI
 
       <Snackbar open={open} autoHideDuration={2000} onClose={handleSnackbarClose}>
         <MuiAlert onClose={handleAlertClose} severity="success" elevation={6} variant="filled">
-          Your Song has been added!
+          {snackbarMessage}
         </MuiAlert>
       </Snackbar>
     </AddDiv>

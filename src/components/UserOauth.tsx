@@ -10,7 +10,14 @@ interface UserOauthDisplayProps {
 
 const SPOTIFY_AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize'
 const CLIENT_ID = '68f4136733804885ad7b21f568e6da7d'
-const SCOPES = 'user-library-modify user-library-read playlist-modify-public playlist-modify-private'
+const SCOPES = [
+  'user-library-modify',
+  'user-library-read',
+  'playlist-read-private',
+  'playlist-read-collaborative',
+  'playlist-modify-public',
+  'playlist-modify-private',
+].join(' ')
 
 const AuthContainer = styled('div')({
   display: 'flex',
@@ -46,14 +53,12 @@ const UserOauthDisplay: React.FC<UserOauthDisplayProps> = ({userAccessToken, set
     setLoading(true)
     setError('')
 
-    // Get Chrome's redirect URL and log it
+    // Get Chrome's redirect URL
     const redirectUri = chrome.identity.getRedirectURL()
-    console.log('Redirect URI:', redirectUri)
 
     const authUrl = `${SPOTIFY_AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
       redirectUri,
     )}&scope=${encodeURIComponent(SCOPES)}&response_type=token`
-    console.log('Auth URL:', authUrl)
 
     chrome.identity.launchWebAuthFlow({url: authUrl, interactive: true}, (response) => {
       if (chrome.runtime.lastError) {
