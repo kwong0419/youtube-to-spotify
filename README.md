@@ -1,6 +1,6 @@
 ### `About`
 
-Download from the chrome web store [here!]()
+Download from the chrome web store [here!](https://chromewebstore.google.com/detail/YouTube%20to%20Spotify/mjfnlfkjmilbgaggjelnkibhcdlojnah?hl=en&authuser=2)
 
 Thanks for checking our Youtube to Spotify Extension. This Chrome extension lets users add music from YouTube to their Spotify playlist. It can only be launched when on a YouTube page. When launched the Chrome extension will look for a matching song and display options to the user.
 
