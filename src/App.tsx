@@ -16,9 +16,9 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchWindow()
-    chrome.storage.sync.get(['SK'], (result) => {
-      if (result.SK) {
-        setUserAccessToken(result.SK)
+    chrome.storage.local.get(['spotifyToken'], (result) => {
+      if (result.spotifyToken) {
+        setUserAccessToken(result.spotifyToken)
       }
     })
   }, [])

@@ -63,7 +63,7 @@ const UserOauthDisplay: React.FC<UserOauthDisplayProps> = ({userAccessToken, set
     chrome.identity.launchWebAuthFlow({url: authUrl, interactive: true}, (response) => {
       if (chrome.runtime.lastError) {
         console.error('Chrome Auth Error:', chrome.runtime.lastError)
-        setError(`Auth Error: Please make sure ${redirectUri} is added to your Spotify App's Redirect URIs`)
+        setError(`Auth Error: ${chrome.runtime.lastError.message} (Check that ${redirectUri} is added to your Spotify App's Redirect URIs)`)
         setLoading(false)
         return
       }
